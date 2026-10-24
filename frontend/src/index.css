@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-slate-50 text-slate-900;
+    font-feature-settings: 'cv11', 'ss01';
+    background-image:
+      radial-gradient(900px 420px at 88% -8%, theme('colors.indigo.500 / 12%'), transparent 60%),
+      radial-gradient(760px 380px at -8% 4%, theme('colors.violet.400 / 9%'), transparent 55%);
+    background-attachment: fixed;
+  }
+  * { scrollbar-width: thin; scrollbar-color: rgb(148 163 184 / 0.5) transparent; }
+  ::selection { background: theme('colors.indigo.500 / 22%'); }
+  :focus-visible { outline: 2px solid theme('colors.indigo.500 / 65%'); outline-offset: 2px; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible { outline: none; }
+  h1, h2, h3 { letter-spacing: -0.015em; }
+  table { font-variant-numeric: tabular-nums; }
+  thead th { @apply text-[11px] uppercase tracking-wider font-semibold; }
+  tbody tr { transition: background-color 0.15s ease; }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98];
+  }
+  .btn-primary {
+    @apply btn text-white bg-gradient-to-b from-indigo-500 to-indigo-600 shadow-glow hover:from-indigo-600 hover:to-indigo-700 focus-visible:ring-indigo-500;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-slate-700 border border-slate-200 shadow-sm hover:bg-slate-50 hover:border-slate-300 focus-visible:ring-indigo-500;
+  }
+  .btn-danger {
+    @apply btn text-white bg-gradient-to-b from-rose-500 to-rose-600 shadow-sm hover:from-rose-600 hover:to-rose-700 focus-visible:ring-rose-500;
+  }
+  .btn-success {
+    @apply btn text-white bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-sm hover:from-emerald-600 hover:to-emerald-700 focus-visible:ring-emerald-500;
+  }
+  .input {
+    @apply block w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10;
+  }
+  .label {
+    @apply block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5;
+  }
+  .card {
+    @apply bg-white rounded-2xl border border-slate-200/70 shadow-soft p-6;
+  }
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ring-1 ring-inset;
+  }
+  .badge-pending { @apply badge bg-amber-50 text-amber-700 ring-amber-200; }
+  .badge-confirmed { @apply badge bg-emerald-50 text-emerald-700 ring-emerald-200; }
+  .badge-cancelled { @apply badge bg-rose-50 text-rose-700 ring-rose-200; }
+  .badge-low-stock { @apply badge bg-orange-50 text-orange-700 ring-orange-200; }
+  .page-title { @apply text-2xl font-extrabold tracking-tight text-slate-900; }
+  .page-sub { @apply text-sm text-slate-500 mt-1; }
+  .skeleton { @apply relative overflow-hidden rounded-lg bg-slate-200/70; }
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.65), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+}
