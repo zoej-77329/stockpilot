@@ -1,6 +1,5 @@
 # StockPilot - Cloud-Native Inventory & Order Management System
 
-**Course:** CSC418: DevOps for Cloud Computing (Lab Exam Project)  
 **System:** StockPilot  
 **Tech Stack:** React 18 + TypeScript + Vite | Python 3.11 Flask REST API | PostgreSQL 16 | Docker Compose | AWS (ALB + ASG + EC2 + RDS)  
 
@@ -8,7 +7,8 @@
 
 ## 1. System Overview
 
-StockPilot is an intermediate-complexity, full-stack Inventory and Order Management System built to satisfy all requirements of the CSC418 DevOps for Cloud Computing lab examination:
+StockPilot is an intermediate-complexity, full-stack Inventory and Order Management System :
+
 - **ACID Stock Transactions:** Implements pessimistic row-level locking (`SELECT ... FOR UPDATE`) to prevent concurrent inventory overselling.
 - **Strict Role-Based Access Control (RBAC):** Backend-enforced authorization differentiating `admin` and `staff` roles.
 - **Containerization & Persistence:** Multi-container Docker Compose with private bridge networking and a PostgreSQL named volume (`stockpilot_pgdata`) with proven persistence across container recreation.
@@ -111,39 +111,14 @@ pytest tests\backend --cov=backend\app --cov-report=term-missing
 
 ---
 
-## 5. Docker Storage Management on Windows (Drive C: Optimization)
 
-By default, Docker Desktop on Windows stores its WSL2 virtual machine disk image (`ext4.vhdx`) on your system drive:
-`C:\Users\<username>\AppData\Local\Docker\wsl\data\ext4.vhdx`
-
-If your **C: drive is low on storage**, follow these optimization tips:
-
-### 5.1 Inspect and Clean Unused Docker Storage
+### 5. Inspect and Clean Unused Docker Storage
 ```powershell
 # View Docker disk consumption
 docker system df
 
 # Prune stopped containers, dangling images, and build cache
 docker system prune -a --volumes
-```
-
-### 5.2 Relocate Docker WSL2 Data Disk to Drive D: (Recommended)
-If your C: drive has limited space, move Docker's WSL2 storage to your larger `D:` drive:
-```powershell
-# 1. Shutdown Docker Desktop and terminate WSL
-wsl --shutdown
-
-# 2. Export docker-desktop-data to D:
-wsl --export docker-desktop-data "D:\DockerWSL\docker-desktop-data.tar"
-
-# 3. Unregister the existing C: distribution
-wsl --unregister docker-desktop-data
-
-# 4. Import the distribution on drive D:
-wsl --import docker-desktop-data "D:\DockerWSL\data" "D:\DockerWSL\docker-desktop-data.tar" --version 2
-
-# 5. Clean up the temporary tar file and restart Docker Desktop
-Remove-Item "D:\DockerWSL\docker-desktop-data.tar"
 ```
 
 ---
